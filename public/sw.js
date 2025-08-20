@@ -1,8 +1,7 @@
-self.addEventListener("push", function(event) {
-  const data = event.data ? event.data.text() : "No payload";
-  event.waitUntil(
-    self.registration.showNotification("New Notification", {
-      body: data,
-    })
-  );
+self.addEventListener("install", function(event) {
+  console.log("✅ Service Worker installed");
+});
+
+self.addEventListener("activate", function(event) {
+  console.log("✅ Service Worker activated");
 });

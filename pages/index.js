@@ -7,10 +7,19 @@ export default function Home() {
         .then(() => console.log("✅ Service Worker registered"))
         .catch(err => console.error("❌ SW registration failed", err));
     }
+
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
   }, []);
 
   async function sendNotification() {
-    await fetch("/api/notify", { method: "POST" });
+    const res = await fetch("/api/notify", { method: "POST" });
+    const data = await res.json();
+
+    if (Notification.permission === "granted") {
+      new Notification(data.title, { body: data.body });
+    }
   }
 
   return (
