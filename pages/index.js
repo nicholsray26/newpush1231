@@ -8,8 +8,10 @@ export default function Home() {
         .catch(err => console.error("❌ SW registration failed", err));
     }
 
-    if ("Notification" in window && Notification.permission !== "granted") {
-      Notification.requestPermission();
+    if ("Notification" in window) {
+      Notification.requestPermission().then((permission) => {
+        console.log("Notification permission:", permission);
+      });
     }
   }, []);
 
@@ -19,6 +21,8 @@ export default function Home() {
 
     if (Notification.permission === "granted") {
       new Notification(data.title, { body: data.body });
+    } else {
+      alert("Notifications are blocked. Please enable them in your browser settings.");
     }
   }
 
